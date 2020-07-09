@@ -9,7 +9,7 @@ using System.CodeDom;
 
 namespace MyShop.DataAccess.InMemory
 {
-    class ProductRepository
+    public class ProductRepository
     {
         ObjectCache cache = MemoryCache.Default;
         List<Products> products = new List<Products>();
@@ -17,31 +17,38 @@ namespace MyShop.DataAccess.InMemory
         public ProductRepository()
         {
             products = cache["products"] as List<Products>;
-            if (products == null) {
+            if (products == null)
+            {
                 products = new List<Products>();
             }
         }
 
-        public void Comit() {
+        public void Comit()
+        {
             cache["products"] = products;
         }
 
-        public void Insert(Products p) {
+        public void Insert(Products p)
+        {
             products.Add(p);
         }
 
-        public void Update(Products product) {
+        public void Update(Products product)
+        {
             Products productToUpdate = products.Find(p => p.Id == product.Id);
 
-            if (productToUpdate != null) {
+            if (productToUpdate != null)
+            {
                 productToUpdate = product;
             }
-            else {
+            else
+            {
                 throw new Exception("Product no found");
             }
         }
 
-        public Products Find(string Id) {
+        public Products Find(string Id)
+        {
             Products product = products.Find(p => p.Id == Id);
 
             if (product != null)
@@ -53,21 +60,24 @@ namespace MyShop.DataAccess.InMemory
                 throw new Exception("Product no found");
             }
         }
-        
-        public IQueryable<Products> Collection() {
+
+        public IQueryable<Products> Collection()
+        {
             return products.AsQueryable();
         }
 
-        public void Delete(string Id) {
+        public void Delete(string Id)
+        {
             Products productToDelete = products.Find(p => p.Id == Id);
 
             if (productToDelete != null)
             {
-                products.Remove(productToDelete)
+                products.Remove(productToDelete);
             }
             else
             {
                 throw new Exception("Product no found");
             }
-     }
+        }
+    }
 }
